@@ -8,6 +8,7 @@ import 'dotenv/config';
 import usersRouter from './routes/users.routes';
 import viewsRouter from './routes/views.routes';
 
+
 const app = express();
 const PORT = 3000;
 
@@ -15,12 +16,12 @@ const PORT = 3000;
 app.use(express.json());
 
 // Configuración del motor de plantillas Handlebars
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
+//app.engine('handlebars', engine());
+//app.set('view engine', 'handlebars');
+//app.set('views', path.join(__dirname, 'views'));
 
 // Middleware para servir archivos estáticos desde la carpeta "public"
-app.use(express.static(path.join(__dirname, '..', 'public')));
+//app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Todos los endpoints van a ir desde /api/
 
@@ -51,7 +52,7 @@ app.get('/api/saludo', (req: Request, res: Response) => {
 app.use('/api/users', usersRouter);
 
 // Rutas de vistas
-app.use('/handlebars', viewsRouter);
+//app.use('/handlebars', viewsRouter);
 
 // Iniciar el servidor HTTP
 app.listen(PORT, () => {
