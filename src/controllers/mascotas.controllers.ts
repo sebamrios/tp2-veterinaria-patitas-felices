@@ -17,7 +17,7 @@ export const registrarMascota = async (req: Request, res: Response) => {
 
         // 3. Validamos que el id_usuario no sea undefined antes de seguir
         if (id_usuario === undefined || id_usuario === null) {
-            console.error("❌ Error: id_usuario no llegó en el body");
+            console.error(" Error: id_usuario no llegó en el body");
             return res.status(400).json({ 
                 message: "El campo id_usuario es obligatorio para vincular la mascota." 
             });
@@ -43,7 +43,7 @@ export const registrarMascota = async (req: Request, res: Response) => {
         });
 
     } catch (error: any) {
-        console.error("❌ Error en registrarMascota:", error.message);
+        console.error(" Error en registrarMascota:", error.message);
         res.status(500).json({ 
             message: "Error al registrar mascota", 
             error: error.message 
@@ -106,4 +106,28 @@ export const listarTodasLasMascotas = async (_req: Request, res: Response) => {
       error: error.message 
     });
   }
+};
+
+export const eliminarMascota = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        
+        // 1. Log en la consola (No al cliente) para saber que entró
+        console.log("Intentando eliminar la mascota con ID:", id);
+
+        // 2. Llamamos al servicio (esperamos a que termine)
+        await MascotaService.eliminarMascota(Number(id));
+
+        // 3. Enviamos LA ÚNICA respuesta al cliente
+        res.json({ 
+            message: `Mascota con ID ${id} eliminada con éxito (Ruta Protegida)` 
+        });
+
+    } catch (error: any) {
+        console.error("Error al eliminar:", error.message);
+        res.status(500).json({ 
+            message: "Error al eliminar la mascota", 
+            error: error.message 
+        });
+    }
 };

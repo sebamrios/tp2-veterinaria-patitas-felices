@@ -28,7 +28,8 @@ export const findUsuarioById = async (
   id: number
 ): Promise<Usuario | null> => {
   const [rows] = await pool.execute<RowDataPacket[]>(
-    `SELECT id, nombre, email, role, created_at
+    // Agregamos password por si se necesita en validaciones internas
+    `SELECT id, nombre, email, password, role, created_at
      FROM usuarios
      WHERE id = ?`,
     [id]
@@ -39,12 +40,13 @@ export const findUsuarioById = async (
 
 /**
  * Buscar usuario por email
+ * IMPORTANTE: Incluimos el campo password para que el Login funcione.
  */
 export const findUsuarioByEmail = async (
   email: string
 ): Promise<Usuario | null> => {
   const [rows] = await pool.execute<RowDataPacket[]>(
-    `SELECT id, nombre, email, role, created_at
+    `SELECT id, nombre, email, password, role, created_at
      FROM usuarios
      WHERE email = ?`,
     [email]
@@ -75,9 +77,10 @@ export const updateUsuario = async (
   const values: any[] = [];
 
   for (const key in data) {
-    fields.push(`${key} = ?`);
-    // @ts-ignore
-    values.push(data[key]);
+    if (data[key as keyof UpdateUsuarioDTO] !== undefined) {
+      fields.push(`${key} = ?`);
+      values.push(data[key as keyof UpdateUsuarioDTO]);
+    }
   }
 
   if (!fields.length) return;
@@ -103,9 +106,9 @@ export const deleteUsuario = async (id: number): Promise<void> => {
 /**
  * filtrar y obtener solo los clientes
  */
-export const getClientes = async () => {
-    const [rows] = await pool.execute(
+export const getClientes = async (): Promise<Usuario[]> => {
+    const [rows] = await pool.execute<RowDataPacket[]>(
         'SELECT id, nombre, email, role FROM usuarios WHERE role = "cliente"'
     );
-    return rows;
+    return rows as Usuario[];
 };

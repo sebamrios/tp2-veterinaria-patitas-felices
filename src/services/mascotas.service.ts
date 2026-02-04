@@ -18,3 +18,9 @@ export const editarMascota = async (id: number, datos: UpdateMascotaDTO) => {
 export const obtenerTodasLasMascotas = async () => {
   return await MascotaModel.getAllMascotas();
 };
+
+export const eliminarMascota = async (id: number) => {
+    // Aquí podrías agregar lógica extra, como verificar si el usuario tiene permiso
+    const resultado = await MascotaModel.deleteMascota(id);
+    return resultado;
+};

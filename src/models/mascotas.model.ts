@@ -67,3 +67,10 @@ export const getAllMascotas = async (): Promise<Mascota[]> => {
   );
   return rows as Mascota[];
 };
+
+export const deleteMascota = async (id: number): Promise<void> => {
+  await pool.execute(
+    `DELETE FROM mascotas WHERE id = ?`,
+    [id]
+  );
+};
