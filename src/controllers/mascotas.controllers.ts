@@ -8,7 +8,6 @@ import { CreateMascotaDTO } from '../types/mascotas.types';
  */
 export const registrarMascota = async (req: Request, res: Response) => {
     try {
-        // 1. Log de depuración para ver qué llega desde el CURL
         console.log("--- Petición Recibida ---");
         console.log("Body:", req.body);
 
@@ -23,7 +22,6 @@ export const registrarMascota = async (req: Request, res: Response) => {
             });
         }
 
-        // 4. Mapeamos al DTO que espera el Service (usuarioId)
         const datosMascota: CreateMascotaDTO = {
             nombre,
             especie,
@@ -34,7 +32,6 @@ export const registrarMascota = async (req: Request, res: Response) => {
 
         console.log("DTO enviado al Service:", datosMascota);
 
-        // 5. Llamamos al servicio
         const insertId = await MascotaService.registrarNuevaMascota(datosMascota);
 
         res.status(201).json({ 
@@ -112,13 +109,9 @@ export const eliminarMascota = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         
-        // 1. Log en la consola (No al cliente) para saber que entró
         console.log("Intentando eliminar la mascota con ID:", id);
-
-        // 2. Llamamos al servicio (esperamos a que termine)
         await MascotaService.eliminarMascota(Number(id));
 
-        // 3. Enviamos LA ÚNICA respuesta al cliente
         res.json({ 
             message: `Mascota con ID ${id} eliminada con éxito (Ruta Protegida)` 
         });

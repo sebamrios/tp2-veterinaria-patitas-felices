@@ -35,13 +35,11 @@ export const createUser = async (
   role: UserRole
 ): Promise<number> => {
 
-  // Verificar email único
   const existingUser = await usuariosModel.findUsuarioByEmail(email);
   if (existingUser) {
     throw new Error('El email ya está registrado');
   }
 
-  // 1. Aplicar Hash de contraseña
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser: CreateUsuarioDTO = {
@@ -65,8 +63,6 @@ export const login = async (email: string, passwordPlana: string) => {
     throw new Error('Credenciales incorrectas');
   }
 
-  // 2. Comparar contraseña (Validación para TypeScript)
-  // Esto soluciona el error "Argument of type string | undefined"
   if (!user.password) {
     throw new Error('El usuario no tiene una contraseña definida en la base de datos');
   }
@@ -76,7 +72,6 @@ export const login = async (email: string, passwordPlana: string) => {
     throw new Error('Credenciales incorrectas');
   }
 
-  // 3. Generar el Token JWT
   const secret = process.env.JWT_SECRET || 'clave_secreta_utn_2026';
   
   const token = jwt.sign(

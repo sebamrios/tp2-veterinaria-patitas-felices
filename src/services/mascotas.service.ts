@@ -2,7 +2,7 @@ import * as MascotaModel from '../models/mascotas.model';
 import { CreateMascotaDTO , UpdateMascotaDTO } from '../types/mascotas.types';
 
 export const registrarNuevaMascota = async (datos: CreateMascotaDTO) => {
-    // Aquí podrías validar cosas antes de llamar al modelo
+
     const insertId = await MascotaModel.createMascota(datos);
     return insertId;
 };
@@ -20,7 +20,6 @@ export const obtenerTodasLasMascotas = async () => {
 };
 
 export const eliminarMascota = async (id: number) => {
-    // Aquí podrías agregar lógica extra, como verificar si el usuario tiene permiso
     const resultado = await MascotaModel.deleteMascota(id);
     return resultado;
 };
