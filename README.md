@@ -81,3 +81,103 @@ Un pequeño backend desarrollado con Node.js y TypeScript para la gestión de un
 | :---   | :---                | :---                 |
 | `GET`  | `/handlebars`       | Vista Home de prueba |
 | `GET`  | `/handlebars/about` | Vista About (ToDo)   |
+
+--------------------------------------------------------------------------------------
+CURL 
+
+ curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Sebastian Rios",
+    "email": "sebastian_test@medrano.com",
+    "password": "password123",
+    "role": "admin"
+  }'
+{"message":"Usuario creado correctamente","userId":5}
+
+--------------------------------------------------------------------------------------
+curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Juan Perez",
+    "email": "juan_cliente@medrano.com",
+    "password": "cliente123",
+    "role": "cliente"
+  }'
+{"message":"Usuario creado correctamente","userId":6}
+
+--------------------------------------------------------------------------------------
+$ curl -X POST http://localhost:3000/api/users/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "juan_cliente@medrano.com", 
+    "password": "cliente123"
+  }'
+{"message":"Login exitoso","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJqdWFuX2NsaWVudGVAbWVkcmFuby5jb20iLCJyb2xlIjoiY2xpZW50ZSIsImlhdCI6MTc3MDIzMTEwOSwiZXhwIjoxNzcwMjQ1NTA5fQ.etJnUVuEacD-aUrnl5a6yLld5LHEsro4E-hH9OzqhB8","user":{"id":6,"nombre":"juan_cliente","email":"juan_cliente@medrano.com","role":"cliente"}}
+
+--------------------------------------------------------------------------------------
+$ curl -X POST http://localhost:3000/api/mascotas \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Felix",
+    "especie": "Gato",
+    "raza": "Callejero",
+    "edad": 3,
+    "id_usuario": 5
+  }'
+{"message":"Mascota creada correctamente","id":5}
+
+--------------------------------------------------------------------------------------
+$ curl -X DELETE http://localhost:3000/api/users/5 \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJqdWFuX2NsaWVudGVAbWVkcmFuby5jb20iLCJyb2xlIjoiY2xpZW50ZSIsImlhdCI6MTc3MDIzMTEwOSwiZXhwIjoxNzcwMjQ1NTA5fQ.etJnUVuEacD-aUrnl5a6yLld5LHEsro4E-hH9OzqhB8"
+{"message":"Usuario eliminado correctamente"}
+
+--------------------------------------------------------------------------------------
+$ curl -X GET http://localhost:3000/api/users
+[{"id":1,"nombre":"juan","email":"juan@example.com","role":"user","created_at":"2026-02-03T01:29:33.000Z"},{"id":2,"nombre":"maria","email":"maria@example.com","role":"user","created_at":"2026-02-03T02:13:04.000Z"},{"id":3,"nombre":"roberto","email":"roberto@mail.com","role":"cliente","created_at":"2026-02-03T02:16:51.000Z"},{"id":4,"nombre":"utn_test","email":"utn_test@medrano.com","role":"admin","created_at":"2026-02-04T01:50:28.000Z"},{"id":6,"nombre":"juan_cliente","email":"juan_cliente@medrano.com","role":"cliente","created_at":"2026-02-04T18:51:10.000Z"}]
+
+--------------------------------------------------------------------------------------
+$ curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Sebastian Rios",
+    "email": "sebastian_test@medrano.com",
+    "password": "password123",
+    "role": "admin"
+  }'
+{"message":"Usuario creado correctamente","userId":7}
+
+---------------------------------------------------------------------------------------
+$ curl -X GET http://localhost:3000/api/users
+[{"id":1,"nombre":"juan","email":"juan@example.com","role":"user","created_at":"2026-02-03T01:29:33.000Z"},{"id":2,"nombre":"maria","email":"maria@example.com","role":"user","created_at":"2026-02-03T02:13:04.000Z"},{"id":3,"nombre":"roberto","email":"roberto@mail.com","role":"cliente","created_at":"2026-02-03T02:16:51.000Z"},{"id":4,"nombre":"utn_test","email":"utn_test@medrano.com","role":"admin","created_at":"2026-02-04T01:50:28.000Z"},{"id":6,"nombre":"juan_cliente","email":"juan_cliente@medrano.com","role":"cliente","created_at":"2026-02-04T18:51:10.000Z"},{"id":7,"nombre":"sebastian_test","email":"sebastian_test@medrano.com","role":"admin","created_at":"2026-02-04T18:59:41.000Z"}]
+
+--------------------------------------------------------------------------------------
+$ curl -X DELETE http://localhost:3000/api/users/7   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJqdWFu
+X2NsaWVudGVAbWVkcmFuby5jb20iLCJyb2xlIjoiY2xpZW50ZSIsImlhdCI6MTc3MDIzMTEwOSwiZXhwIjoxNzcwMjQ1NTA5fQ.etJnUVuEacD-aUrnl5a6yLld5LHEsro4E-hH9OzqhB8" 
+{"message":"Usuario eliminado correctamente"}
+
+--------------------------------------------------------------------------------------
+$ curl -X GET http://localhost:3000/api/users
+[{"id":1,"nombre":"juan","email":"juan@example.com","role":"user","created_at":"2026-02-03T01:29:33.000Z"},{"id":2,"nombre":"maria","email":"maria@example.com","role":"user","created_at":"2026-02-03T02:13:04.000Z"},{"id":3,"nombre":"roberto","email":"roberto@mail.com","role":"cliente","created_at":"2026-02-03T02:16:51.000Z"},{"id":4,"nombre":"utn_test","email":"utn_test@medrano.com","role":"admin","created_at":"2026-02-04T01:50:28.000Z"},{"id":6,"nombre":"juan_cliente","email":"juan_cliente@medrano.com","role":"cliente","created_at":"2026-02-04T18:51:10.000Z"}]
+
+------------------------------------------------------------------------------------------
+$ curl -X POST http://localhost:3000/api/mascotas \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJqdWFuX2NsaWVudGVAbWVkcmFuby5jb20iLCJyb2xlIjoiY2xpZW50ZSIsImlhdCI6MTc3MDIzMTEwOSwiZXhwIjoxNzcwMjQ1NTA5fQ.etJnUVuEacD-aUrnl5a6yLld5LHEsro4E-hH9OzqhB8" \
+  -d '{
+    "nombre": "Felix",
+    "especie": "Gato",
+    "raza": "Callejero",
+    "edad": 3,
+    "id_usuario": 6
+  }'
+{"message":"Mascota creada correctamente","id":6}
+
+------------------------------------------------------------------------------------------------
+$ curl -X PUT http://localhost:3000/api/mascotas/6   -H "Content-Type: application/json"   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJqdWFuX2NsaWVudGVAbWVkcmFuby5jb20iLCJyb2xlIjoiY2xpZW50ZSIsImlhdCI6MTc3MDIzMTEwOSwiZXhwIjoxNzcwMjQ1NTA5fQ.etJnUVuEacD-aUrnl5a6yLld5LHEsro4E-hH9OzqhB8"   -d '{
+    "nombre": "Fenix",
+    "especie": "Gato",
+    "raza": "Callejero",
+    "edad": 3,
+    "id_usuario": 6
+  }'
