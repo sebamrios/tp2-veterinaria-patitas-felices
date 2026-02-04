@@ -1,12 +1,20 @@
 import { Router } from 'express';
-import { getAllUsers, addUser } from '../controllers/users.controller';
+import { 
+    getUsuarios, 
+    getUsuarioById, 
+    createUsuario, 
+    updateUsuario, 
+    deleteUsuario, 
+    getUsuariosClientes
+} from '../controllers/users.controller';
 
 const router = Router();
 
-// GET /api/users/
-router.get('/', getAllUsers);
-
-// POST /api/users/
-router.post('/', addUser);
+router.get('/', getUsuarios);
+router.get('/clientes', getUsuariosClientes); 
+router.get('/:id', getUsuarioById);
+router.post('/', createUsuario);
+router.put('/:id', updateUsuario);
+router.delete('/:id', deleteUsuario);
 
 export default router;

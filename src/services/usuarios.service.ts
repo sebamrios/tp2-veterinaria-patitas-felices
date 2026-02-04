@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import * as usuariosModel from '../models/usuarios.model';
 import {
   Usuario,
@@ -99,4 +99,10 @@ export const canCreateUsers = (role: UserRole): boolean => {
 
 export const canDeleteUsers = (role: UserRole): boolean => {
   return role === 'admin';
+};
+
+
+export const obtenerSoloClientes = async () => {
+    const usuarios = await usuariosModel.getClientes();
+    return usuarios;
 };

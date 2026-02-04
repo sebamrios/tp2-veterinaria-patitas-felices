@@ -97,3 +97,14 @@ export const deleteUsuario = async (req: Request, res: Response) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+
+export const getUsuariosClientes = async (_req: Request, res: Response) => {
+  try {
+    // Aquí puedes llamar directamente al modelo o a un servicio si lo tienes separado
+    const clientes = await usuariosService.obtenerSoloClientes(); 
+    res.json(clientes);
+  } catch (error: any) {
+    res.status(500).json({ message: "Error al obtener clientes", error: error.message });
+  }
+};

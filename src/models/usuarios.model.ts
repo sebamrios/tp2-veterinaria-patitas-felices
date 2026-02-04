@@ -99,3 +99,13 @@ export const deleteUsuario = async (id: number): Promise<void> => {
     [id]
   );
 };
+
+/**
+ * filtrar y obtener solo los clientes
+ */
+export const getClientes = async () => {
+    const [rows] = await pool.execute(
+        'SELECT id, nombre, email, role FROM usuarios WHERE role = "cliente"'
+    );
+    return rows;
+};

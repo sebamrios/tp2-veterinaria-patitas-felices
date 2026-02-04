@@ -1,12 +1,18 @@
 import { Router } from 'express';
-import { registrarMascota, listarMascotasPorDueño } from '../controllers/mascotas.controllers';
+import { 
+    registrarMascota, 
+    listarMascotasPorCliente, 
+    actualizarMascota,
+    listarTodasLasMascotas
+
+} from '../controllers/mascotas.controllers';
 
 const router = Router();
 
-// Endpoint para crear: POST http://localhost:3000/api/mascotas
 router.post('/', registrarMascota);
+router.get('/', listarTodasLasMascotas);
+router.get('/cliente/:usuarioId', listarMascotasPorCliente);
+router.put('/:id', actualizarMascota); 
 
-// Endpoint para listar: GET http://localhost:3000/api/mascotas/usuario/1
-router.get('/usuario/:usuarioId', listarMascotasPorDueño);
 
 export default router;

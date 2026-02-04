@@ -1,25 +1,109 @@
 import { Request, Response } from 'express';
-import * as MascotaModel from '../models/mascotas.model';
+import * as MascotaService from '../services/mascotas.service';
+import { CreateMascotaDTO } from '../types/mascotas.types';
 
 /**
- * POST /mascotas
+ * POST /api/mascotas
+ * Registra una nueva mascota vinculada a un usuario
  */
-
 export const registrarMascota = async (req: Request, res: Response) => {
-  try {
-    const id = await MascotaModel.createMascota(req.body);
-    res.status(201).json({ message: 'Mascota registrada', id });
-  } catch (error) {
-    res.status(500).json({ message: 'Error al registrar mascota', error });
-  }
+    try {
+        // 1. Log de depuración para ver qué llega desde el CURL
+        console.log("--- Petición Recibida ---");
+        console.log("Body:", req.body);
+
+        // 2. Extraemos los campos (el curl envía id_usuario)
+        const { nombre, especie, raza, edad, id_usuario } = req.body;
+
+        // 3. Validamos que el id_usuario no sea undefined antes de seguir
+        if (id_usuario === undefined || id_usuario === null) {
+            console.error("❌ Error: id_usuario no llegó en el body");
+            return res.status(400).json({ 
+                message: "El campo id_usuario es obligatorio para vincular la mascota." 
+            });
+        }
+
+        // 4. Mapeamos al DTO que espera el Service (usuarioId)
+        const datosMascota: CreateMascotaDTO = {
+            nombre,
+            especie,
+            raza,
+            edad,
+            usuarioId: id_usuario 
+        };
+
+        console.log("DTO enviado al Service:", datosMascota);
+
+        // 5. Llamamos al servicio
+        const insertId = await MascotaService.registrarNuevaMascota(datosMascota);
+
+        res.status(201).json({ 
+            message: "Mascota creada correctamente", 
+            id: insertId 
+        });
+
+    } catch (error: any) {
+        console.error("❌ Error en registrarMascota:", error.message);
+        res.status(500).json({ 
+            message: "Error al registrar mascota", 
+            error: error.message 
+        });
+    }
 };
 
-export const listarMascotasPorDueño = async (req: Request, res: Response) => {
+/**
+ * GET /api/mascotas/dueño/:usuarioId
+ * Lista todas las mascotas de un usuario específico
+ */
+export const listarMascotasPorCliente = async (req: Request, res: Response) => {
+    try {
+        const { usuarioId } = req.params;
+        
+        if (!usuarioId) {
+            return res.status(400).json({ message: "ID de usuario requerido" });
+        }
+
+        const mascotas = await MascotaService.obtenerMascotasDeUsuario(Number(usuarioId));
+        res.json(mascotas);
+
+    } catch (error: any) {
+        res.status(500).json({ 
+            message: 'Error al obtener mascotas', 
+            error: error.message 
+        });
+    }
+};
+
+export const actualizarMascota = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { nombre, especie, raza, edad } = req.body;
+
+        const exito = await MascotaService.editarMascota(Number(id), { 
+            nombre, 
+            especie, 
+            raza, 
+            edad 
+        });
+
+        if (exito) {
+            res.json({ message: "Mascota actualizada correctamente" });
+        } else {
+            res.status(404).json({ message: "No se encontró la mascota para actualizar" });
+        }
+    } catch (error: any) {
+        res.status(500).json({ message: "Error al actualizar", error: error.message });
+    }
+};
+
+export const listarTodasLasMascotas = async (_req: Request, res: Response) => {
   try {
-    const { usuarioId } = req.params;
-    const mascotas = await MascotaModel.getMascotasByUsuario(Number(usuarioId));
+    const mascotas = await MascotaService.obtenerTodasLasMascotas();
     res.json(mascotas);
-  } catch (error) {
-    res.status(500).json({ message: 'Error al obtener mascotas', error });
+  } catch (error: any) {
+    res.status(500).json({ 
+      message: "Error al obtener el listado completo", 
+      error: error.message 
+    });
   }
 };

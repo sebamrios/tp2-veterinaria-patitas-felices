@@ -1,15 +1,16 @@
 export type Especie = 'perro' | 'gato' | 'otro';
 
+
 export interface Mascota {
   id: number;
   nombre: string;
-  especie: Especie;
+  especie: string;
   raza: string;
   edad: number;
-  usuarioId: number; // dueño
+  usuarioId: number;
   createdAt?: Date;
-  updatedAt?: Date;
 }
+
 
 export interface CreateMascotaDTO {
   nombre: string;
@@ -25,5 +26,6 @@ export interface UpdateMascotaDTO {
   raza?: string;
   edad?: number;
 }
+
 
 
