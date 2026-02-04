@@ -55,29 +55,29 @@ Un pequeño backend desarrollado con Node.js y TypeScript para la gestión de un
 
 ### Autenticación y Usuarios (`/api/users`)
 
-| Método | Endpoint | Descripción |
-| :--- | :--- | :--- |
-| `POST` | `/api/users/login` | Iniciar sesión (Retorna Token JWT) |
-| `POST` | `/api/users` | Registrar nuevo usuario |
-| `GET` | `/api/users` | Listar todos los usuarios |
-| `GET` | `/api/users/clientes` | Listar solo usuarios clientes |
-| `GET` | `/api/users/:id` | Obtener usuario por ID |
-| `PUT` | `/api/users/:id` | Actualizar usuario |
-| `DELETE` | `/api/users/:id` | Eliminar usuario |
+| Método   | Endpoint             | Descripción                        | Requiere Auth |
+| :---     | :---                 | :---                               | :---          |
+| `POST`   | `/api/users/login`   | Iniciar sesión (Retorna Token JWT) | No            |
+| `POST`   | `/api/users`         | Registrar nuevo usuario            | No            |
+| `GET`    | `/api/users`         | Listar todos los usuarios          | No            |
+| `GET`    | `/api/users/clientes`| Listar solo usuarios clientes      | No            |
+| `GET`    | `/api/users/:id`     | Obtener usuario por ID             | No            |
+| `PUT`    | `/api/users/:id`     | Actualizar usuario                 | No            |
+| `DELETE` | `/api/users/:id`     | Eliminar usuario                   | No            |
 
 ### Mascotas (`/api/mascotas`)
 
-| Método | Endpoint | Descripción | Requiere Auth |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/mascotas` | Registrar mascota | No |
-| `GET` | `/api/mascotas` | Listar todas las mascotas | No |
-| `GET` | `/api/mascotas/cliente/:usuarioId` | Listar mascotas de un cliente | No |
-| `PUT` | `/api/mascotas/:id` | Actualizar mascota | **Sí** (Token) |
-| `DELETE` | `/api/mascotas/:id` | Eliminar mascota | **Sí** (Token) |
+| Método   | Endpoint                           | Descripción                  | Requiere Auth |
+| :---     | :---                               | :---                         | :---          |
+| `POST`   | `/api/mascotas`                    | Registrar mascota            | No            |
+| `GET`    | `/api/mascotas`                    | Listar todas las mascotas    | No            |
+| `GET`    | `/api/mascotas/cliente/:usuarioId` | Listar mascotas de un cliente| No            |
+| `PUT`    | `/api/mascotas/:id`                | Actualizar mascota           | **Sí** (Token)|
+| `DELETE` | `/api/mascotas/:id`                | Eliminar mascota             | **Sí** (Token)|
 
 ### Vistas (`/handlebars`)
 
-| Método | Endpoint | Descripción |
-| :--- | :--- | :--- |
-| `GET` | `/handlebars` | Vista Home de prueba |
-| `GET` | `/handlebars/about` | Vista About (ToDo) |
+| Método | Endpoint            | Descripción          |
+| :---   | :---                | :---                 |
+| `GET`  | `/handlebars`       | Vista Home de prueba |
+| `GET`  | `/handlebars/about` | Vista About (ToDo)   |
