@@ -62,8 +62,8 @@ Un pequeño backend desarrollado con Node.js y TypeScript para la gestión de un
 | `GET`    | `/api/users`         | Listar todos los usuarios          | No            |
 | `GET`    | `/api/users/clientes`| Listar solo usuarios clientes      | No            |
 | `GET`    | `/api/users/:id`     | Obtener usuario por ID             | No            |
-| `PUT`    | `/api/users/:id`     | Actualizar usuario                 | No            |
-| `DELETE` | `/api/users/:id`     | Eliminar usuario                   | No            |
+| `PUT`    | `/api/users/:id`     | Actualizar usuario                 | si            |
+| `DELETE` | `/api/users/:id`     | Eliminar usuario                   | si            |
 
 ### Mascotas (`/api/mascotas`)
 
